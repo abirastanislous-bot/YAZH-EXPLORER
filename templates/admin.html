@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - YAZH EXPLORER</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <nav>
+        <div class="logo">🎵 YAZH EXPLORER</div>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/places">Places</a></li>
+            <li><a href="/map">Map</a></li>
+            <li><a href="/planner">Plan</a></li>
+            <li><a href="/admin">Admin</a></li>
+        </ul>
+    </nav>
+
+    <div class="page-header">
+        <h1>⚙️ Admin Panel</h1>
+        <p>Manage all places of interest</p>
+    </div>
+
+    <div class="admin-container">
+
+        <!-- TOP BAR -->
+        <div class="admin-topbar">
+            <p><strong>Total Places:</strong> {{ places|length }}</p>
+            <a href="/admin/add" class="btn-add">➕ Add New Place</a>
+        </div>
+
+        <!-- FLASH MESSAGES -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash-message flash-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <!-- PLACES TABLE -->
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Photo</th>
+                    <th>Name</th>
+                    <th>Category</th>
+                    <th>Distance</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for place in places %}
+                <tr>
+                    <td>{{ place[0] }}</td>
+                    <td>
+                        <img src="{{ url_for('static', filename='images/' + place[12] + '/1.jpg') }}" 
+                             alt="{{ place[1] }}" class="table-thumb">
+                    </td>
+                    <td><strong>{{ place[1] }}</strong></td>
+                    <td><span class="category-badge">{{ place[2] }}</span></td>
+                    <td>{{ place[6] }} km</td>
+                    <td>
+                        <a href="/admin/edit/{{ place[0] }}" class="btn-edit">✏️ Edit</a>
+                        <a href="/admin/delete/{{ place[0] }}" 
+                           class="btn-delete"
+                           onclick="return confirm('Are you sure you want to DELETE this place? This cannot be undone!')">🗑️ Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+
+    <footer>
+        <p>© 2026 YAZH EXPLORER | E2410360 - A. Stanislous</p>
+    </footer>
+
+</body>
+</html>

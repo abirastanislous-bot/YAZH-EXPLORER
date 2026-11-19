@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Map - YAZH EXPLORER</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+</head>
+<body>
+
+    <nav>
+        <div class="logo">🎵 YAZH EXPLORER</div>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/places">Places</a></li>
+            <li><a href="/map">Map</a></li>
+			<li><a href="/planner">Plan</a></li>
+			<li><a href="/admin">Admin</a></li>
+        </ul>
+    </nav>
+
+    <div class="page-header">
+        <h1>Interactive Map</h1>
+        <p>Explore all places within 25km of Passaiyoor</p>
+    </div>
+
+    <!-- MAP + SIDEBAR LAYOUT -->
+    <div class="map-layout">
+
+        <!-- SIDEBAR -->
+        <div class="map-sidebar">
+            <h3>📍 All Places</h3>
+            <input type="text" id="mapSearch" placeholder="🔍 Filter..." onkeyup="filterSidebar()">
+            <ul id="placeList">
+                {% for place in places %}
+                <li onclick="flyToPlace({{ place[10] }}, {{ place[11] }}, {{ place[0] }})">
+                    <span class="badge-small">{{ place[2] }}</span>
+                    <strong>{{ place[1] }}</strong>
+                    <small>📍 {{ place[6] }} km</small>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- MAP -->
+        <div id="map"></div>
+
+    </div>
+
+    <footer>
+        <p>© 2026 YAZH EXPLORER | E2410360 - A. Stanislous</p>
+    </footer>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <script>
+        // Initialize the map centered on Passaiyoor, Jaffna
+        const map = L.map('map').setView([9.6615, 80.0255], 11);
+
+        // Add OpenStreetMap tile layer
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors',
+            maxZoom: 19
+        }).addTo(map);
+
+        // Marker colors by category
+        const categoryColors = {
+            'Religious': '#8B0000',
+            'Nature': '#1ABC9C',
+            'Heritage': '#8B4513',
+            'Cultural': '#D4A017'
+        };
+
+        // Custom colored marker function
+        function createMarker(color) {
+            return L.divIcon({
+                className: 'custom-marker',
+                html: `<div style="background-color: ${color}; width: 30px; height: 30px; border-radius: 50% 50% 50% 0; transform: rotate(-45deg); border: 3px solid white; box-shadow: 0 3px 10px rgba(0,0,0,0.3);"></div>`,
+                iconSize: [30, 30],
+                iconAnchor: [15, 30],
+                popupAnchor: [0, -30]
+            });
+        }
+
+        // Store markers so we can fly to them
+        const markers = {};
+
+        // Add markers for each place
+        {% for place in places %}
+        (function() {
+            const lat = {{ place[10] }};
+            const lng = {{ place[11] }};
+            const id = {{ place[0] }};
+            const color = categoryColors["{{ place[2] }}"] || '#8B0000';
+            
+            const marker = L.marker([lat, lng], { icon: createMarker(color) }).addTo(map);
+            
+            const popupContent = `
+                <div style="width: 220px; font-family: 'Segoe UI', sans-serif;">
+                    <img src="/static/images/{{ place[12] }}/1.jpg" 
+                         style="width: 100%; height: 120px; object-fit: cover; border-radius: 8px 8px 0 0; margin: -13px -20px 10px -20px;">
+                    <h3 style="color: #8B0000; margin: 5px 0; font-size: 1rem;">{{ place[1] }}</h3>
+                    <p style="color: #D4A017; font-weight: bold; font-size: 0.8rem; margin: 3px 0;">{{ place[2] }}</p>
+                    <p style="color: #666; font-size: 0.85rem; margin: 5px 0;">📍 {{ place[6] }} km from Passaiyoor</p>
+                    <a href="/place/${id}" 
+                       style="display: inline-block; margin-top: 5px; background: #8B0000; color: white; padding: 6px 14px; border-radius: 50px; text-decoration: none; font-size: 0.85rem; font-weight: bold;">View Details →</a>
+                </div>
+            `;
+            
+            marker.bindPopup(popupContent);
+            markers[id] = marker;
+        })();
+        {% endfor %}
+
+        // Fly to a place when clicked in sidebar
+        function flyToPlace(lat, lng, id) {
+            map.flyTo([lat, lng], 15, { duration: 1.5 });
+            setTimeout(() => {
+                markers[id].openPopup();
+            }, 1600);
+        }
+
+        // Sidebar search filter
+        function filterSidebar() {
+            const search = document.getElementById('mapSearch').value.toLowerCase();
+            const items = document.querySelectorAll('#placeList li');
+            items.forEach(item => {
+                const text = item.textContent.toLowerCase();
+                item.style.display = text.includes(search) ? '' : 'none';
+            });
+        }
+    </script>
+
+</body>
+</html>

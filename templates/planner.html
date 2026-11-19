@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>One-Day Planner - YAZH EXPLORER</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <nav>
+        <div class="logo">🎵 YAZH EXPLORER</div>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/places">Places</a></li>
+            <li><a href="/map">Map</a></li>
+            <li><a href="/planner">Plan</a></li>
+			<li><a href="/admin">Admin</a></li>
+        </ul>
+    </nav>
+
+    <div class="page-header">
+        <h1>📅 One-Day Visit Planner</h1>
+        <p>Select places, arrange them, and see your total distance</p>
+    </div>
+
+    <div class="planner-layout">
+
+        <!-- LEFT PANEL: SELECT PLACES -->
+        <div class="planner-left">
+            <h2>1️⃣ Select Places</h2>
+            <input type="text" id="plannerSearch" placeholder="🔍 Search places..." onkeyup="filterPlanner()">
+            
+            <div id="placeOptions">
+                {% for place in places %}
+                <div class="option-card" data-id="{{ place[0] }}" data-name="{{ place[1] }}" data-distance="{{ place[6] }}">
+                    <label>
+                        <input type="checkbox" onchange="updatePlan()" data-id="{{ place[0] }}">
+                        <span>
+                            <strong>{{ place[1] }}</strong>
+                            <small>{{ place[2] }} • 📍 {{ place[6] }} km</small>
+                        </span>
+                    </label>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- RIGHT PANEL: YOUR PLAN -->
+        <div class="planner-right">
+            <h2>2️⃣ Your Plan</h2>
+            <div id="emptyMessage" class="empty-msg">
+                <p>👈 Select places on the left to build your plan</p>
+            </div>
+            <ol id="planList"></ol>
+
+            <div id="totalSection" class="total-section" style="display:none;">
+                <div class="total-box">
+                    <span>Total Places:</span>
+                    <strong id="totalPlaces">0</strong>
+                </div>
+                <div class="total-box">
+                    <span>Total Distance:</span>
+                    <strong id="totalDistance">0 km</strong>
+                </div>
+            </div>
+
+            <button id="clearBtn" class="btn-clear" onclick="clearPlan()" style="display:none;">🗑️ Clear Plan</button>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>© 2026 YAZH EXPLORER | E2410360 - A. Stanislous</p>
+    </footer>
+
+    <script>
+        // Update plan when checkboxes change
+        function updatePlan() {
+            const checkboxes = document.querySelectorAll('#placeOptions input[type="checkbox"]');
+            const planList = document.getElementById('planList');
+            const emptyMsg = document.getElementById('emptyMessage');
+            const totalSection = document.getElementById('totalSection');
+            const clearBtn = document.getElementById('clearBtn');
+
+            planList.innerHTML = '';
+            let selected = [];
+            let totalDist = 0;
+
+            checkboxes.forEach(cb => {
+                if (cb.checked) {
+                    const card = cb.closest('.option-card');
+                    const id = card.dataset.id;
+                    const name = card.dataset.name;
+                    const distance = parseFloat(card.dataset.distance);
+                    
+                    selected.push({ id, name, distance });
+                    totalDist += distance;
+                }
+            });
+
+            if (selected.length === 0) {
+                emptyMsg.style.display = 'block';
+                totalSection.style.display = 'none';
+                clearBtn.style.display = 'none';
+            } else {
+                emptyMsg.style.display = 'none';
+                totalSection.style.display = 'flex';
+                clearBtn.style.display = 'block';
+
+                selected.forEach((place, index) => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `
+                        <span class="place-num">${index + 1}</span>
+                        <div class="place-details">
+                            <strong>${place.name}</strong>
+                            <small>📍 ${place.distance} km</small>
+                        </div>
+                        <div class="place-actions">
+                            ${index > 0 ? `<button onclick="moveUp(${place.id})">↑</button>` : ''}
+                            ${index < selected.length - 1 ? `<button onclick="moveDown(${place.id})">↓</button>` : ''}
+                        </div>
+                    `;
+                    planList.appendChild(li);
+                });
+            }
+
+            document.getElementById('totalPlaces').textContent = selected.length;
+            document.getElementById('totalDistance').textContent = totalDist.toFixed(1) + ' km';
+        }
+
+        // Move place up in the sequence
+        function moveUp(id) {
+            const planList = document.getElementById('planList');
+            const items = Array.from(planList.children);
+            const index = items.findIndex(li => li.querySelector('.place-num').textContent === String(
+                Array.from(planList.children).findIndex(el => el.querySelector('strong').textContent && 
+                el.closest('#placeOptions')) || 0
+            ));
+            // Simple reorder: swap the checkbox order
+            const cards = Array.from(document.querySelectorAll('.option-card'));
+            const cardIndex = cards.findIndex(c => c.dataset.id === String(id));
+            if (cardIndex > 0) {
+                const temp = cards[cardIndex];
+                cards[cardIndex] = cards[cardIndex - 1];
+                cards[cardIndex - 1] = temp;
+                reorderCheckboxes(cards);
+            }
+            updatePlan();
+        }
+
+        function moveDown(id) {
+            const cards = Array.from(document.querySelectorAll('.option-card'));
+            const cardIndex = cards.findIndex(c => c.dataset.id === String(id));
+            if (cardIndex < cards.length - 1) {
+                const temp = cards[cardIndex];
+                cards[cardIndex] = cards[cardIndex + 1];
+                cards[cardIndex + 1] = temp;
+                reorderCheckboxes(cards);
+            }
+            updatePlan();
+        }
+
+        function reorderCheckboxes(cards) {
+            const container = document.getElementById('placeOptions');
+            container.innerHTML = '';
+            cards.forEach(card => container.appendChild(card));
+        }
+
+        // Clear plan
+        function clearPlan() {
+            document.querySelectorAll('#placeOptions input[type="checkbox"]').forEach(cb => cb.checked = false);
+            updatePlan();
+        }
+
+        // Search filter for planner
+        function filterPlanner() {
+            const search = document.getElementById('plannerSearch').value.toLowerCase();
+            document.querySelectorAll('.option-card').forEach(card => {
+                const name = card.dataset.name.toLowerCase();
+                card.style.display = name.includes(search) ? '' : 'none';
+            });
+        }
+    </script>
+
+</body>
+</html>

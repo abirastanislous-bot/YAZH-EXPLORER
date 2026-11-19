@@ -1,0 +1,85 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\HP\\OneDrive\\BIT\\YazhExplo\\YazhExplorer\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{7E4D2ADB-C3A2-42BF-A50B-D01258720521}|YazhExplorer.pyproj|C:\\Users\\HP\\OneDrive\\BIT\\YazhExplo\\YazhExplorer\\app.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{7E4D2ADB-C3A2-42BF-A50B-D01258720521}|YazhExplorer.pyproj|solutionrelative:app.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7E4D2ADB-C3A2-42BF-A50B-D01258720521}|YazhExplorer.pyproj|C:\\Users\\HP\\OneDrive\\BIT\\YazhExplo\\YazhExplorer\\seed_data.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{7E4D2ADB-C3A2-42BF-A50B-D01258720521}|YazhExplorer.pyproj|solutionrelative:seed_data.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7E4D2ADB-C3A2-42BF-A50B-D01258720521}|YazhExplorer.pyproj|C:\\Users\\HP\\OneDrive\\BIT\\YazhExplo\\YazhExplorer\\templates\\places.html||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{7E4D2ADB-C3A2-42BF-A50B-D01258720521}|YazhExplorer.pyproj|solutionrelative:templates\\places.html||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7E4D2ADB-C3A2-42BF-A50B-D01258720521}|YazhExplorer.pyproj|C:\\Users\\HP\\OneDrive\\BIT\\YazhExplo\\YazhExplorer\\templates\\index.html||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{7E4D2ADB-C3A2-42BF-A50B-D01258720521}|YazhExplorer.pyproj|solutionrelative:templates\\index.html||{8B382828-6202-11D1-8870-0000F87579D2}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 3,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "places.html",
+              "DocumentMoniker": "C:\\Users\\HP\\OneDrive\\BIT\\YazhExplo\\YazhExplorer\\templates\\places.html",
+              "RelativeDocumentMoniker": "templates\\places.html",
+              "ToolTip": "C:\\Users\\HP\\OneDrive\\BIT\\YazhExplo\\YazhExplorer\\templates\\places.html",
+              "RelativeToolTip": "templates\\places.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAkwCYAAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-10-06T13:17:23.571Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "index.html",
+              "DocumentMoniker": "C:\\Users\\HP\\OneDrive\\BIT\\YazhExplo\\YazhExplorer\\templates\\index.html",
+              "RelativeDocumentMoniker": "templates\\index.html",
+              "ToolTip": "C:\\Users\\HP\\OneDrive\\BIT\\YazhExplo\\YazhExplorer\\templates\\index.html",
+              "RelativeToolTip": "templates\\index.html",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAcwDYAAAATAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-10-06T13:15:47.967Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "seed_data.py",
+              "DocumentMoniker": "C:\\Users\\HP\\OneDrive\\BIT\\YazhExplo\\YazhExplorer\\seed_data.py",
+              "RelativeDocumentMoniker": "seed_data.py",
+              "ToolTip": "C:\\Users\\HP\\OneDrive\\BIT\\YazhExplo\\YazhExplorer\\seed_data.py",
+              "RelativeToolTip": "seed_data.py",
+              "ViewState": "AgIAAEEAAAAAAAAAAAAUwGUAAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2026-10-06T13:11:13.594Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "app.py",
+              "DocumentMoniker": "C:\\Users\\HP\\OneDrive\\BIT\\YazhExplo\\YazhExplorer\\app.py",
+              "RelativeDocumentMoniker": "app.py",
+              "ToolTip": "C:\\Users\\HP\\OneDrive\\BIT\\YazhExplo\\YazhExplorer\\app.py",
+              "RelativeToolTip": "app.py",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAALoAAAAlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2026-10-06T07:40:57.806Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

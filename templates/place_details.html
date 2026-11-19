@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ place[1] }} - YAZH EXPLORER</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <nav>
+        <div class="logo">🎵 YAZH EXPLORER</div>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/places">Places</a></li>
+			<li><a href="/map">Map</a></li>
+			<li><a href="/planner">Plan</a></li>
+			<li><a href="/admin">Admin</a></li>
+        </ul>
+    </nav>
+
+    <div class="details-header">
+        <a href="/places" class="back-link">← Back to Places</a>
+        <span class="category-badge">{{ place[2] }}</span>
+        <h1>{{ place[1] }}</h1>
+        <p class="distance">📍 {{ place[6] }} km from Passaiyoor</p>
+    </div>
+
+    <!-- PHOTO GALLERY (5 Photos) -->
+    <div class="gallery-container">
+        <h2>Photo Gallery</h2>
+        <div class="gallery-grid">
+            {% for i in range(1, 6) %}
+            <img src="{{ url_for('static', filename='images/' + place[12] + '/' + i|string + '.jpg') }}"
+                 alt="{{ place[1] }} photo {{ i }}"
+                 onclick="openLightbox(this.src)">
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- DETAILS SECTION -->
+    <div class="details-container">
+
+        <div class="detail-card">
+            <h3>📝 About</h3>
+            <p>{{ place[3] }}</p>
+        </div>
+
+        <div class="detail-grid">
+            <div class="detail-box">
+                <h3>🕐 Opening Hours</h3>
+                <p>{{ place[4] }}</p>
+            </div>
+
+            <div class="detail-box">
+                <h3>💰 Entrance Fee</h3>
+                <p>{{ place[5] }}</p>
+            </div>
+
+            <div class="detail-box">
+                <h3>📍 Distance</h3>
+                <p>{{ place[6] }} km from Passaiyoor</p>
+            </div>
+
+            <div class="detail-box">
+                <h3>🏷️ Category</h3>
+                <p>{{ place[2] }}</p>
+            </div>
+        </div>
+
+        <div class="detail-card">
+            <h3>🎒 Travel Tips</h3>
+            <p>{{ place[7] }}</p>
+        </div>
+
+        <div class="detail-card">
+            <h3>📜 Historical Background</h3>
+            <p>{{ place[8] }}</p>
+        </div>
+
+        <div class="detail-card">
+            <h3>📞 Contact Details</h3>
+            <p>{{ place[9] }}</p>
+        </div>
+
+    </div>
+
+    <!-- LIGHTBOX (for enlarged photos) -->
+    <div id="lightbox" class="lightbox" onclick="closeLightbox()">
+        <img id="lightbox-img" src="">
+    </div>
+
+    <script>
+        function openLightbox(src) {
+            document.getElementById('lightbox').style.display = 'flex';
+            document.getElementById('lightbox-img').src = src;
+        }
+        function closeLightbox() {
+            document.getElementById('lightbox').style.display = 'none';
+        }
+    </script>
+
+    <footer>
+        <p>© 2026 YAZH EXPLORER | E2410360 - A. Stanislous</p>
+    </footer>
+
+</body>
+</html>

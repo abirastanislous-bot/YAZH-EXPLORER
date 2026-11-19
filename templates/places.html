@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Places - YAZH EXPLORER</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <!-- NAVIGATION -->
+    <nav>
+        <div class="logo">🎵 YAZH EXPLORER</div>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/places">Places</a></li>
+			<li><a href="/map">Map</a></li>
+			<li><a href="/planner">Plan</a></li>
+			<li><a href="/admin">Admin</a></li>
+        </ul>
+    </nav>
+
+    <!-- HEADER -->
+    <div class="page-header">
+        <h1>Places of Interest</h1>
+        <p>All attractions within 25km of Passaiyoor</p>
+    </div>
+	<!-- SEARCH & FILTER BAR -->
+    <div class="filter-bar">
+    <input type="text" id="searchBox" placeholder="🔍 Search by place name..." onkeyup="filterPlaces()">
+    
+    <select id="categoryFilter" onchange="filterPlaces()">
+        <option value="all">All Categories</option>
+        <option value="Religious">Religious</option>
+        <option value="Nature">Nature</option>
+        <option value="Heritage">Heritage</option>
+        <option value="Cultural">Cultural</option>
+    </select>
+    
+    <select id="sortFilter" onchange="filterPlaces()">
+        <option value="default">Sort: Default</option>
+        <option value="name">Sort: Name (A-Z)</option>
+        <option value="distance">Sort: Distance (Nearest)</option>
+    </select>
+    
+    <span id="resultCount" class="result-count"></span>
+</div>
+
+    <!-- PLACES GRID -->
+    <div class="places-container">
+        {% for place in places %}
+        <div class="place-card">
+            <img src="{{ url_for('static', filename='images/' + place[12] + '/1.jpg') }}" alt="{{ place[1] }}">
+            <div class="place-info">
+                <span class="category-badge">{{ place[2] }}</span>
+                <h3>{{ place[1] }}</h3>
+                <p class="distance">📍 {{ place[6] }} km from Passaiyoor</p>
+                <p class="description">{{ place[3][:100] }}...</p>
+                <a href="/place/{{place[0]}}" class="btn-details">View Details →</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>© 2026 YAZH EXPLORER | E2410360 - A. Stanislous</p>
+    </footer>
+
+<script>
+    function filterPlaces() {
+        const searchText = document.getElementById('searchBox').value.toLowerCase();
+        const category = document.getElementById('categoryFilter').value;
+        const sortBy = document.getElementById('sortFilter').value;
+        const container = document.querySelector('.places-container');
+        const cards = Array.from(container.querySelectorAll('.place-card'));
+        
+        let visibleCount = 0;
+        
+        // Step 1: Show/Hide based on search & category
+        cards.forEach(card => {
+            const name = card.querySelector('h3').textContent.toLowerCase();
+            const badge = card.querySelector('.category-badge').textContent.trim();
+            const matchesSearch = name.includes(searchText);
+            const matchesCategory = (category === 'all' || badge === category);
+            
+            if (matchesSearch && matchesCategory) {
+                card.style.display = '';
+                card.dataset.visible = 'yes';
+                visibleCount++;
+            } else {
+                card.style.display = 'none';
+                card.dataset.visible = 'no';
+            }
+        });
+        
+        // Step 2: Sort visible cards
+        if (sortBy !== 'default') {
+            const visibleCards = cards.filter(c => c.dataset.visible === 'yes');
+            
+            visibleCards.sort((a, b) => {
+                if (sortBy === 'name') {
+                    const nameA = a.querySelector('h3').textContent.toLowerCase();
+                    const nameB = b.querySelector('h3').textContent.toLowerCase();
+                    return nameA.localeCompare(nameB);
+                }
+                if (sortBy === 'distance') {
+                    const distA = parseFloat(a.querySelector('.distance').textContent.match(/[\d.]+/)[0]);
+                    const distB = parseFloat(b.querySelector('.distance').textContent.match(/[\d.]+/)[0]);
+                    return distA - distB;
+                }
+                return 0;
+            });
+            
+            // Re-append in sorted order
+            visibleCards.forEach(card => container.appendChild(card));
+        }
+        
+        // Step 3: Update result count
+        document.getElementById('resultCount').textContent = 
+            visibleCount + ' place' + (visibleCount !== 1 ? 's' : '') + ' found';
+    }
+    
+    // Run on page load to show initial count
+    window.onload = function() {
+        filterPlaces();
+    };
+</script>
+</body>
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Place - YAZH EXPLORER Admin</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <nav>
+        <div class="logo">🎵 YAZH EXPLORER</div>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/places">Places</a></li>
+            <li><a href="/map">Map</a></li>
+            <li><a href="/planner">Plan</a></li>
+            <li><a href="/admin">Admin</a></li>
+        </ul>
+    </nav>
+
+    <div class="page-header">
+        <h1>✏️ Edit Place</h1>
+        <a href="/admin" class="back-link">← Back to Admin</a>
+    </div>
+
+    <div class="form-container">
+
+        <form method="POST" action="/admin/edit/{{ place[0] }}" class="place-form">
+
+            <div class="form-row">
+                <label>Place Name *</label>
+                <input type="text" name="name" value="{{ place[1] }}" required>
+            </div>
+
+            <div class="form-row">
+                <label>Category *</label>
+                <select name="category" required>
+                    <option value="Religious" {% if place[2] == 'Religious' %}selected{% endif %}>Religious</option>
+                    <option value="Nature" {% if place[2] == 'Nature' %}selected{% endif %}>Nature</option>
+                    <option value="Heritage" {% if place[2] == 'Heritage' %}selected{% endif %}>Heritage</option>
+                    <option value="Cultural" {% if place[2] == 'Cultural' %}selected{% endif %}>Cultural</option>
+                </select>
+            </div>
+
+            <div class="form-row">
+                <label>Short Description *</label>
+                <textarea name="description" rows="3" required>{{ place[3] }}</textarea>
+            </div>
+
+            <div class="form-row">
+                <label>Opening Hours</label>
+                <input type="text" name="opening_hours" value="{{ place[4] }}">
+            </div>
+
+            <div class="form-row">
+                <label>Entrance Fee</label>
+                <input type="text" name="entrance_fee" value="{{ place[5] }}">
+            </div>
+
+            <div class="form-row">
+                <label>Distance from Passaiyoor (km) *</label>
+                <input type="number" name="distance" step="0.1" value="{{ place[6] }}" required>
+            </div>
+
+            <div class="form-row">
+                <label>Travel Tips</label>
+                <textarea name="travel_tips" rows="2">{{ place[7] }}</textarea>
+            </div>
+
+            <div class="form-row">
+                <label>Historical Background</label>
+                <textarea name="historical_background" rows="3">{{ place[8] }}</textarea>
+            </div>
+
+            <div class="form-row">
+                <label>Contact Details</label>
+                <input type="text" name="contact_details" value="{{ place[9] }}">
+            </div>
+
+            <div class="form-row">
+                <label>Latitude *</label>
+                <input type="number" name="latitude" step="0.0001" value="{{ place[10] }}" required>
+            </div>
+
+            <div class="form-row">
+                <label>Longitude *</label>
+                <input type="number" name="longitude" step="0.0001" value="{{ place[11] }}" required>
+            </div>
+
+            <div class="form-row">
+                <label>Image Folder Name *</label>
+                <input type="text" name="image_folder" value="{{ place[12] }}" required>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn-save">💾 Update Place</button>
+                <a href="/admin" class="btn-cancel">Cancel</a>
+            </div>
+
+        </form>
+
+    </div>
+
+    <footer>
+        <p>© 2026 YAZH EXPLORER | E2410360 - A. Stanislous</p>
+    </footer>
+
+</body>
+</html>
